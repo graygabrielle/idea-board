@@ -1,0 +1,23 @@
+{
+  "name": "idea-board",
+  "version": "1.0.0",
+  "description": "app to keep a record of creative idea with user login",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/graygabrielle/idea-board.git"
+  },
+  "author": "Gray Gabrielle",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/graygabrielle/idea-board/issues"
+  },
+  "homepage": "https://github.com/graygabrielle/idea-board#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
