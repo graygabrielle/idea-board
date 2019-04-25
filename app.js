@@ -16,6 +16,9 @@ const users = require("./routes/users");
 //passport config
 require("./config/passport")(passport)
 
+//db config
+const db = require("./config/database");
+
 //Express-session middleware
 app.use(session({
   secret:'secret',
@@ -54,7 +57,7 @@ app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 //Connect to mongoose
-mongoose.connect("mongodb://localhost/ideaboard-dev", {
+mongoose.connect(db.mongoURI, {
   useNewUrlParser: true
 })
 .then(() => console.log("MongoDB connected..."))
