@@ -56,7 +56,7 @@ app.use(methodOverride('_method'));
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-//Connect to mongoose
+//Connect to Mongoose
 mongoose.connect(db.mongoURI, {
   useNewUrlParser: true
 })
