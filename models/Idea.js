@@ -22,3 +22,4 @@ const IdeaSchema = new Schema({
 });
 
 mongoose.model('ideas', IdeaSchema);
+ 
