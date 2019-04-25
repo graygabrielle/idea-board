@@ -24,8 +24,7 @@ const Idea = mongoose.model('ideas');
 
 //index route
 app.get(`/`, (req, res) => {
-  const title = 'welcome';
-  res.render('index', {title});
+  res.render('index');
 });
 
 //about route
@@ -33,10 +32,35 @@ app.get(`/about`, (req, res) => {
   res.render('about');
 });
 
+//Idea index page
+app.get(`/ideas`, (req, res) => {
+  Idea.find({})
+    .sort({date:'desc'})
+    .then(ideas => {
+      res.render('ideas/index', {
+        ideas
+      });
+    })
+
+})
+
 //add Idea form
 app.get(`/ideas/add`, (req, res) => {
   res.render('ideas/add');
 });
+
+//edit Idea form
+app.get('/ideas/edit/:id', (req, res) => {
+  Idea.findOne({
+    _id: req.params.id
+  })
+    .then(idea => {
+      res.render('ideas/edit', {
+        idea
+      });
+    })
+
+})
 
 //process form
 app.post(`/ideas`, (req, res) =>{
@@ -56,7 +80,15 @@ app.post(`/ideas`, (req, res) =>{
       details: req.body.details
     });
   } else{
-    res.send('passed');
+    const newUser = {
+      title: req.body.title,
+      details: req.body.details
+    }
+    new Idea(newUser)
+      .save()
+      .then(idea => {
+        res.redirect('/ideas');
+      });
   }
 
 });
