@@ -5,12 +5,16 @@ const methodOverride = require("method-override");
 const flash = require("connect-flash");
 const session = require("express-session");
 const path = require("path");
+const passport = require("passport");
 
 const app = express();
 
 //load ideas routes
 const ideas = require("./routes/ideas");
 const users = require("./routes/users");
+
+//passport config
+require("./config/passport")(passport)
 
 //Express-session middleware
 app.use(session({
