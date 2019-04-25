@@ -16,7 +16,7 @@ router.get(`/`, (req, res) => {
         ideas
       });
     })
-})
+});
 
 //process form
 router.post(`/`, (req, res) =>{
@@ -35,7 +35,7 @@ router.post(`/`, (req, res) =>{
       title: req.body.title,
       details: req.body.details
     });
-  } else{
+  } else {
     const newUser = {
       title: req.body.title,
       details: req.body.details
@@ -43,7 +43,7 @@ router.post(`/`, (req, res) =>{
     new Idea(newUser)
       .save()
       .then(idea => {
-        req.flash('success_msg', 'Idea added!')
+        req.flash('success_msg', 'Idea added!');
         res.redirect('/ideas');
       });
   }
@@ -63,8 +63,8 @@ router.get('/edit/:id', (req, res) => {
       res.render('ideas/edit', {
         idea
       });
-    })
-})
+    });
+});
 
 //edit form process
 router.put('/:id', (req, res) => {
@@ -80,9 +80,9 @@ router.put('/:id', (req, res) => {
         .then(idea => {
           req.flash('success_msg', 'Idea updated!')
           res.redirect('/ideas');
-        })
-    })
-})
+        });
+    });
+});
 
 //delete idea
 router.delete('/:id', (req, res) => {
