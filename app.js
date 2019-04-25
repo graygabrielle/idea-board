@@ -2,11 +2,28 @@ const express = require("express");
 const handlebars = require("express-handlebars");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
+const flash = require("connect-flash");
+const session = require("express-session");
 
 const app = express();
 
-//map global promise-get rid of warning
-// mongoose.Promise = global.Promise;
+//Express session middleware
+app.use(session({
+  secret:'secret',
+  resave: true,
+  saveUninitialized: true
+}));
+
+//Flash middleware
+app.use(flash());
+
+//global variables
+app.use(function(req, res, next){
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
+});
 
 //body parser middleware
 app.use(express.urlencoded({ extended: false}));
@@ -91,6 +108,7 @@ app.post(`/ideas`, (req, res) =>{
     new Idea(newUser)
       .save()
       .then(idea => {
+        req.flash('success_msg', 'Idea added!')
         res.redirect('/ideas');
       });
   }
@@ -109,6 +127,7 @@ app.put('/ideas/:id', (req, res) => {
 
       idea.save()
         .then(idea => {
+          req.flash('success_msg', 'Idea updated!')
           res.redirect('/ideas');
         })
     })
@@ -120,6 +139,7 @@ app.delete('/ideas/:id', (req, res) => {
     _id: req.params.id
   })
     .then(() => {
+      req.flash('success_msg', 'Idea removed!')
       res.redirect('/ideas');
     });
 });
