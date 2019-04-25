@@ -1,6 +1,7 @@
 const express = require("express");
 const handlebars = require("express-handlebars");
 const mongoose = require("mongoose");
+const methodOverride = require("method-override");
 
 const app = express();
 
@@ -10,6 +11,9 @@ const app = express();
 //body parser middleware
 app.use(express.urlencoded({ extended: false}));
 app.use(express.json());
+
+//method override middleware
+app.use(methodOverride('_method'));
 
 //Connect to mongoose
 mongoose.connect("mongodb://localhost/ideaboard-dev", {
@@ -93,10 +97,37 @@ app.post(`/ideas`, (req, res) =>{
 
 });
 
+//edit form process
+app.put('/ideas/:id', (req, res) => {
+  Idea.findOne({
+    _id: req.params.id
+  })
+    .then(idea => {
+      //new values
+      idea.title = req.body.title;
+      idea.details = req.body.details;
+
+      idea.save()
+        .then(idea => {
+          res.redirect('/ideas');
+        })
+    })
+})
+
+//delete idea
+app.delete('/ideas/:id', (req, res) => {
+  Idea.remove({
+    _id: req.params.id
+  })
+    .then(() => {
+      res.redirect('/ideas');
+    });
+});
+
+
 //handlebars middleware
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-
 
 //set up port and run server
 const port = process.env.PORT || 5000;
